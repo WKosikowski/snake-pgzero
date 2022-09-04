@@ -39,7 +39,7 @@ class Snake :
 		self.posx = posx
 		self.posy = posy
 		self.growSnake = False
-		self.snake = []
+		self.segments = []
 		
 		
 		for i in range(0,5):
@@ -50,13 +50,13 @@ class Snake :
 				
 			#actor._surf = pygame.transform.scale(actor._surf, (SEGMENT_SIZE, SEGMENT_SIZE))
 			actor.pos = (120 + (posx - i) * SEGMENT_SIZE, 120 + posy * SEGMENT_SIZE)
-			self.snake.append(actor)
+			self.segments.append(actor)
 	
 	def len(self):
-		return len(self.snake)
+		return len(self.segments)
 	
 	def draw(self):
-		for segment in self.snake:
+		for segment in self.segments:
 			segment.draw()
 		
 	def move(self, direction):
@@ -70,12 +70,12 @@ class Snake :
 			self.growSnake = False
 			actor = Actor("body")
 			#actor._surf = pygame.transform.scale(actor._surf, (SEGMENT_SIZE, SEGMENT_SIZE))
-			self.snake.append(actor)
+			self.segments.append(actor)
 		
-		for i in range(len(self.snake) - 1, 0, -1):
-			self.snake[i].pos = self.snake[i - 1].pos
+		for i in range(len(self.segments) - 1, 0, -1):
+			self.segments[i].pos = self.segments[i - 1].pos
 			
-		self.snake[0].pos = (120 + self.posx * SEGMENT_SIZE, 120 + self.posy * SEGMENT_SIZE)
+		self.segments[0].pos = (120 + self.posx * SEGMENT_SIZE, 120 + self.posy * SEGMENT_SIZE)
 	
 	
 	def grow(self):
@@ -88,7 +88,7 @@ class Snake :
 	
 	def onItself(self):
 		for i in range(1, self.len() - 1):
-			if self.snake[0].pos == self.snake[i].pos:
+			if self.segments[0].pos == self.segments[i].pos:
 				return True
 		return False
 		
@@ -119,7 +119,7 @@ class Game:
 		self.appleGridPosx = random.randint(0,25)
 		self.appleGridPosy = random.randint(0,15)
 		self.apple.pos = ((120 + self.appleGridPosx * SEGMENT_SIZE, 120 + self.appleGridPosy * SEGMENT_SIZE ))
-		for i in self.snake.snake:
+		for i in self.snake.segments:
 			if self.apple.pos == i.pos:
 				self.newApple()
 				break
